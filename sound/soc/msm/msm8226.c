@@ -50,7 +50,11 @@
 #define EXT_CLASS_D_DIS_DELAY 3000
 #define EXT_CLASS_D_DELAY_DELTA 2000
 
+#ifdef CONFIG_MACH_SONY_FLAMINGO
+#define WCD9XXX_MBHC_DEF_BUTTONS 4
+#else
 #define WCD9XXX_MBHC_DEF_BUTTONS 8
+#endif
 #define WCD9XXX_MBHC_DEF_RLOADS 5
 #define TAPAN_EXT_CLK_RATE 9600000
 
@@ -94,7 +98,12 @@ static struct wcd9xxx_mbhc_config mbhc_cfg = {
 	.gpio_irq = 0,
 	.gpio_level_insert = 0,
 	.detect_extn_cable = true,
+#ifdef CONFIG_MACH_SONY_FLAMINGO
+	.micbias_enable_flags = 1 << MBHC_MICBIAS_ENABLE_THRESHOLD_HEADSET |
+							1 << MBHC_MICBIAS_ENABLE_REGULAR_HEADSET,
+#else
 	.micbias_enable_flags = 1 << MBHC_MICBIAS_ENABLE_THRESHOLD_HEADSET,
+#endif
 	.insert_detect = true,
 	.swap_gnd_mic = NULL,
 	.cs_enable_flags = (1 << MBHC_CS_ENABLE_POLLING |
@@ -1074,8 +1083,13 @@ void *def_tapan_mbhc_cal(void)
 	S(t_ins_retry, 200);
 #undef S
 #define S(X, Y) ((WCD9XXX_MBHC_CAL_PLUG_TYPE_PTR(tapan_cal)->X) = (Y))
+#ifdef CONFIG_SONY_FLAMINGO
+	S(v_no_mic, 400);
+	S(v_hs_max, 2600);
+#else
 	S(v_no_mic, 30);
 	S(v_hs_max, 2450);
+#endif
 #undef S
 #define S(X, Y) ((WCD9XXX_MBHC_CAL_BTN_DET_PTR(tapan_cal)->X) = (Y))
 	S(c[0], 62);
@@ -1093,6 +1107,16 @@ void *def_tapan_mbhc_cal(void)
 	btn_low = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_V_BTN_LOW);
 	btn_high = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg,
 					       MBHC_BTN_DET_V_BTN_HIGH);
+#ifdef CONFIG_MACH_SONY_FLAMINGO
+	btn_low[0] = -50;
+	btn_high[0] = 100;
+	btn_low[1] = 101;
+	btn_high[1] = 375;
+	btn_low[2] = 376;
+	btn_high[2] = 750;
+	btn_low[3] = 751;
+	btn_high[3] = 1500;
+#else
 	btn_low[0] = -50;
 	btn_high[0] = 20;
 	btn_low[1] = 21;
@@ -1109,6 +1133,7 @@ void *def_tapan_mbhc_cal(void)
 	btn_high[6] = 269;
 	btn_low[7] = 270;
 	btn_high[7] = 500;
+#endif
 	n_ready = wcd9xxx_mbhc_cal_btn_det_mp(btn_cfg, MBHC_BTN_DET_N_READY);
 	n_ready[0] = 80;
 	n_ready[1] = 12;
