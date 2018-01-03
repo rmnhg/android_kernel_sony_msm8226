@@ -296,10 +296,15 @@ obj-$(CONFIG_MACH_SONY_EAGLE) += clock-eagle.o
 obj-$(CONFIG_MACH_SONY_EAGLE) += board-eagle-console.o
 obj-$(CONFIG_MACH_SONY_EAGLE) += bms-batterydata-eagle.o
 
-#Disabled CAF batterydata,Use device specific.
+obj-$(CONFIG_MACH_SONY_FLAMINGO) += board-8226.o
+obj-$(CONFIG_MACH_SONY_FLAMINGO) += board-flamingo-gpiomux.o
+obj-$(CONFIG_MACH_SONY_FLAMINGO) += clock-flamingo.o
+obj-$(CONFIG_MACH_SONY_FLAMINGO) += bms-batterydata-flamingo.o
+
+# Disabled CAF batterydata, use device specific.
 #obj-$(CONFIG_QPNP_BMS) += bms-batterydata-oem.o
 
-# Enable Them by using your device flag,easier to introduce changes
+# Enable Them by using your device flag, easier to introduce changes
 #obj-$(CONFIG_ARCH_MSM8226) += board-8226.o
 #obj-$(CONFIG_ARCH_MSM8226) += board-8226-gpiomux.o
 #obj-$(CONFIG_ARCH_MSM8226) += clock-8226.o
