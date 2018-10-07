@@ -966,13 +966,13 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 	}
 }
 
+#ifdef CONFIG_MACH_SONY_EAGLE
 void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
 {
 	struct mdss_panel_data *pdata;
 	u32 temp;
 	bool bl_notify = false;
 
-#ifdef CONFIG_MACH_SONY_EAGLE
 	mutex_lock(&mfd->bl_lock);
 	if (mfd->unset_bl_level && !mfd->bl_updated) {
 		pdata = dev_get_platdata(&mfd->pdev->dev);
@@ -987,7 +987,18 @@ void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
 			pdata->set_backlight(pdata, temp);
 			mfd->bl_level_scaled = mfd->unset_bl_level;
 			mfd->bl_updated = 1;
+			}
+		}
+		mutex_unlock(&mfd->bl_lock);
+	}
 #else
+void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
+{
+	struct mdss_panel_data *pdata;
+	u32 temp;
+	bool bl_notify = false;
+
+
 	if (mfd->unset_bl_level) {
 		mutex_lock(&mfd->bl_lock);
 		if (!mfd->bl_updated) {
@@ -1003,11 +1014,12 @@ void mdss_fb_update_backlight(struct msm_fb_data_type *mfd)
 				pdata->set_backlight(pdata, temp);
 				mfd->bl_level_scaled = mfd->unset_bl_level;
 				mfd->bl_updated = 1;
-#endif
 			}
 		}
 		mutex_unlock(&mfd->bl_lock);
 	}
+}
+#endif
 
 static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 			     int op_enable)
