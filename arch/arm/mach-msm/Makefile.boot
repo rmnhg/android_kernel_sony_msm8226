@@ -105,6 +105,8 @@ endif
 	dtb-$(CONFIG_MACH_SONY_EAGLE)	+= msm8926-v1-yukon_eagle-720p-mtp.dtb
 	dtb-$(CONFIG_MACH_SONY_EAGLE)	+= msm8926-v2-yukon_eagle-720p-mtp.dtb
 	dtb-$(CONFIG_MACH_SONY_FLAMINGO)+= msm8926-yukon_flamingo-8926ss_ap.dtb
+	dtb-$(CONFIG_MACH_SONY_FLAMINGO)+= msm8226-yukon_flamingo-8226ss_dp.dtb
+	dtb-$(CONFIG_MACH_SONY_FLAMINGO)+= msm8226-yukon_flamingo-8226ds_dp.dtb
 
 # FSM9XXX
    zreladdr-$(CONFIG_ARCH_FSM9XXX)	:= 0x10008000
