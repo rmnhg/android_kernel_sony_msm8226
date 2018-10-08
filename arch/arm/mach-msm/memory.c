@@ -148,6 +148,13 @@ static void __init adjust_reserve_sizes(void)
 
 	mt = &reserve_info->memtype_reserve_table[0];
 	for (i = 0; i < MEMTYPE_MAX; i++, mt++) {
+#ifdef CONFIG_MACH_SONY_SEAGULL
+		// BSP-LC-Reserve_Mem-00 +[
+		if (i == MEMTYPE_EBI1_FIH) {
+			continue;
+		}
+		// BSP-LC-Reserve_Mem-00 +]
+#endif
 		if (mt->flags & MEMTYPE_FLAGS_1M_ALIGN)
 			mt->size = (mt->size + SECTION_SIZE - 1) & SECTION_MASK;
 		if (mt->size > mt->limit) {
