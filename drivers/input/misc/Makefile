@@ -69,3 +69,6 @@ obj-$(CONFIG_SENSORS_STK3X1X)		+= stk3x1x.o
 obj-$(CONFIG_SENSORS_CAPELLA_CM36283)	+= cm36283.o
 obj-$(CONFIG_SENSORS_MMC3416XPJ_MAG)	+= mmc3416x.o
 obj-$(CONFIG_INPUT_KIONIX_ACCEL)        += kionix_accel.o
+obj-$(CONFIG_SENSORS_BMA2X2)    += bma2x2_driver.o
+obj-$(CONFIG_SENSORS_BMM050)    += bmm050_driver.o bmm050.o
+obj-$(CONFIG_SENSORS_BMG160)    += bmg160_driver.o bmg160.o
