@@ -1,4 +1,7 @@
 /* Copyright (c) 2012, The Linux Foundation. All rights reserved.
+#ifdef CONFIG_MACH_SONY_TIANCHI
+ * Copyright (c) 2013 Sony Mobile Communications AB.
+#endif
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -57,7 +60,17 @@ static inline int msm_dump_table_register(struct msm_client_dump *entry)
 {
 	return -EIO;
 }
+#ifdef CONFIG_MACH_SONY_TIANCHI
+
+static inline void msm_reserve_last_regs(void)
+{
+	return;
+}
+#endif
 #else
 int msm_dump_table_register(struct msm_client_dump *client_entry);
+#ifdef CONFIG_MACH_SONY_TIANCHI
+void msm_reserve_last_regs(void);
+#endif
 #endif
 #endif
